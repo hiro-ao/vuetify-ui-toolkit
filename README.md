@@ -7,10 +7,55 @@
 ```sh
 npm config set @hiro-ao:registry https://npm.pkg.github.com
 npm login --scope=@hiro-ao --auth-type=legacy --registry=https://npm.pkg.github.com
-npm install @hiro-ao/vuetify-ui-toolkit vuetify @mdi/font
+npm install @hiro-ao/vuetify-ui-toolkit
 ```
 
 GitHub Packagesからインストールするには、`read:packages`権限のあるGitHub Personal Access Token (classic) で認証してください。トークンはnpmのユーザー設定に保存し、リポジトリにはコミットしないでください。利用者には対象パッケージへのアクセス権も必要です。
+
+## Nuxtでの利用
+
+Nuxtアプリでも通常のnpmパッケージとしてインストールします。Vuetify 3のNuxtモジュールなど、Vuetifyのセットアップは別途必要です。Vuetifyをすでに導入済みなら、Vuetifyやアイコンフォントを重ねてインストールする必要はありません。
+
+```sh
+npm install @hiro-ao/vuetify-ui-toolkit
+```
+
+Vuetify用NuxtモジュールがVuetifyのスタイルを自動で読み込む構成なら、`vuetify/styles`を追加する必要はありません。ライブラリーのスタイルは読み込んでください。
+
+```ts
+export default defineNuxtConfig({
+  css: ['@hiro-ao/vuetify-ui-toolkit/style.css'],
+});
+```
+
+Vuetify用Nuxtモジュールでスタイルの自動読み込みを無効にしている場合に限り、`vuetify/styles`を`css`に追加してください。
+
+`plugins/vuetify-ui-toolkit.ts`を作成し、Vueアプリにプラグインを登録します。Nuxtが`plugins/`内のプラグインを自動読み込みするため、`nuxt.config.ts`への登録は不要です。
+
+```ts
+import { VuetifyUiToolkit } from '@hiro-ao/vuetify-ui-toolkit';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VuetifyUiToolkit);
+});
+```
+
+これで`UiBtn`、`UiTabs`、フォームコンポーネントと`v-ascii`がグローバル登録されます。コンポーネントはテンプレートから利用できます。
+
+```vue
+<script setup lang="ts">
+import { ref } from 'vue';
+
+const postcode = ref('');
+</script>
+
+<template>
+  <UiBtn>保存</UiBtn>
+  <UiFormPostcodeField v-model="postcode" />
+</template>
+```
+
+Vuetifyの標準アイコンセットはMDIですが、Vuetify本体にアイコンフォントファイルが含まれているわけではありません。Vuetify用NuxtモジュールがMDIフォントとCSSを設定しているなら追加設定は不要です。設定していない場合は`@mdi/font`をインストールしてCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。別のアイコンセットを利用している場合は、MDIアイコンを使用するフォームのアイコン表示がそのままでは一致しないことがあります。
 
 ## 公開
 
@@ -53,7 +98,7 @@ createApp(App)
   .mount('#app');
 ```
 
-フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。利用側アプリでも`@mdi/font`をインストールし、上記のようにCSSを読み込んでVuetifyのアイコンセットを設定してください。
+フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。Vuetify側ですでにMDIフォントを読み込んでいる場合、CSSを重複してimportする必要はありません。未設定の場合は利用側で`@mdi/font`のCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。
 
 `app.use(VuetifyUiToolkit)`を使うと、`v-ascii`ディレクティブもグローバル登録されます。全角ASCII入力を半角に変換します。プラグインを使わない場合は、個別に登録できます。
 

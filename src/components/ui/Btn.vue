@@ -1,5 +1,6 @@
 <script setup lang="ts">
-import type { VBtn } from 'vuetify/components';
+import { VBtn } from 'vuetify/components';
+import type { VBtn as VBtnType } from 'vuetify/components';
 
 const props = withDefaults(
   defineProps<{
@@ -11,7 +12,7 @@ const props = withDefaults(
 );
 
 let setColor;
-let setVariant: VBtn['$props']['variant'];
+let setVariant: VBtnType['$props']['variant'];
 
 switch (props.variant) {
   case 'default': {
