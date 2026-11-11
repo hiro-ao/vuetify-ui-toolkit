@@ -9,7 +9,13 @@ import {
   type Ref,
 } from 'vue';
 
-import { VSelect, VTextarea, VTextField } from 'vuetify/components';
+import {
+  VChip,
+  VLabel,
+  VSelect,
+  VTextarea,
+  VTextField,
+} from 'vuetify/components';
 
 import type {
   ValidationOption,

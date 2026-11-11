@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed, onScopeDispose, provide, ref, watch } from 'vue';
+import { VForm } from 'vuetify/components';
 import type { FormFieldConfig, FormFieldSchema, FormValue } from '../../composables/useFormConfigs';
 import { useFormConfigs } from '../../composables/useFormConfigs';
 import UiBtn from './Btn.vue';

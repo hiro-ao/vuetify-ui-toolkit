@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import { computed } from 'vue';
+import { VIcon } from 'vuetify/components';
 import type { ValidationMessage, ValidationMessages } from '../../../composables/useValidation';
 
 

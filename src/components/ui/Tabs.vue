@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { VTabs } from 'vuetify/components';
 
 interface Props {
   floating?: boolean;
