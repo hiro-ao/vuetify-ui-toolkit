@@ -50,8 +50,8 @@ const postcode = ref('');
 </script>
 
 <template>
-  <UiBtn>保存</UiBtn>
-  <UiFormPostcodeField v-model="postcode" />
+  <ui-btn>保存</ui-btn>
+  <ui-form-postcode-field v-model="postcode" />
 </template>
 ```
 

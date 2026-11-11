@@ -133,10 +133,10 @@ const handleSubmit = (data: Record<string, unknown>) => {
           </div>
         </header>
 
-        <UiTabs v-model="activeTab" class="demo-tabs" color="primary">
+        <ui-tabs v-model="activeTab" class="demo-tabs" color="primary">
           <v-tab value="components">コンポーネント</v-tab>
           <v-tab value="composables">Composables</v-tab>
-        </UiTabs>
+        </ui-tabs>
 
         <v-window v-model="activeTab" class="demo-window">
           <v-window-item value="components">
@@ -160,14 +160,14 @@ const handleSubmit = (data: Record<string, unknown>) => {
                 </div>
                 <p class="card-description">用途に合わせた3つのvariantと、ローディング表示。</p>
                 <div class="button-row">
-                  <UiBtn>Default</UiBtn>
-                  <UiBtn variant="accept">Accept</UiBtn>
-                  <UiBtn variant="cancel">Cancel</UiBtn>
+                  <ui-btn>Default</ui-btn>
+                  <ui-btn variant="accept">Accept</ui-btn>
+                  <ui-btn variant="cancel">Cancel</ui-btn>
                 </div>
                 <div class="loading-row">
-                  <UiBtn variant="accept" :loading="isLoading" @click="showLoading">
+                  <ui-btn variant="accept" :loading="isLoading" @click="showLoading">
                     {{ isLoading ? '処理中...' : 'ローディングを試す' }}
-                  </UiBtn>
+                  </ui-btn>
                   <span class="hint">クリックで1.8秒間表示</span>
                 </div>
               </v-card>
@@ -182,10 +182,10 @@ const handleSubmit = (data: Record<string, unknown>) => {
                 </div>
                 <p class="card-description">選択中のタブが分かる、ガラス調のタブバー。</p>
                 <div class="tabs-demo">
-                  <UiTabs v-model="previewTab" class="demo-tabs-inline">
+                  <ui-tabs v-model="previewTab" class="demo-tabs-inline">
                     <v-tab value="overview">Overview</v-tab>
                     <v-tab value="settings">Settings</v-tab>
-                  </UiTabs>
+                  </ui-tabs>
                 </div>
                 <div class="tabs-state">
                   <span class="state-indicator" />
@@ -202,7 +202,7 @@ const handleSubmit = (data: Record<string, unknown>) => {
                   <span class="card-index">03</span>
                 </div>
                 <p class="card-description">スキーマから入力欄を生成。入力して送信を試せます。</p>
-                <UiForm
+                <ui-form
                   submit-endpoint="/playground"
                   :schema="schema"
                   :server-errors="serverErrors"
@@ -250,13 +250,13 @@ const handleSubmit = (data: Record<string, unknown>) => {
                   <strong>{{ Object.keys(serverErrors).length }} 件</strong>
                 </div>
               </div>
-              <UiBtn
+              <ui-btn
                 variant="accept"
                 :loading="isSubmitting"
                 @click="submitApiForm({ source: 'playground' })"
               >
                 {{ isSubmitting ? '送信中...' : '送信を試す' }}
-              </UiBtn>
+              </ui-btn>
               <div v-if="composableResult" class="form-result">
                 <span class="state-indicator" />
                 送信完了
