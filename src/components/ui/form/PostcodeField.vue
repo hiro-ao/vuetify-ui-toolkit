@@ -7,7 +7,7 @@ const attrs = useAttrs();
 </script>
 
 <template>
-  <VMaskInput
+  <v-mask-input
     v-bind="attrs"
     v-model="model"
     mask="###-####"

@@ -1,6 +1,6 @@
 # Vuetify UI Toolkit
 
-再利用可能なVueコンポーネントとcomposableをまとめたライブラリーです。Vue 3とVuetify 3は利用側アプリで用意してください。
+再利用可能なVueコンポーネントとcomposableをまとめたライブラリーです。Vue 3とVuetify 4は利用側アプリで用意してください。
 
 ## インストール
 
@@ -14,7 +14,7 @@ GitHub Packagesからインストールするには、`read:packages`権限の�
 
 ## Nuxtでの利用
 
-Nuxtアプリでも通常のnpmパッケージとしてインストールします。Vuetify 3のNuxtモジュールなど、Vuetifyのセットアップは別途必要です。Vuetifyをすでに導入済みなら、Vuetifyやアイコンフォントを重ねてインストールする必要はありません。
+Nuxtアプリでも通常のnpmパッケージとしてインストールします。Vuetify 4のNuxtモジュールなど、Vuetifyのセットアップは別途必要です。Vuetifyをすでに導入済みなら、Vuetifyやアイコンフォントを重ねてインストールする必要はありません。
 
 ```sh
 npm install @hiro-ao/vuetify-ui-toolkit
