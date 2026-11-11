@@ -6,8 +6,10 @@ import UiFormPasswordField from './components/ui/form/PasswordField.vue';
 import UiFormPostcodeField from './components/ui/form/PostcodeField.vue';
 import UiFormValidationMessages from './components/ui/form/ValidationMessages.vue';
 import UiTabs from './components/ui/Tabs.vue';
+import { asciiDirective } from './directives/ascii';
 
 export {
+  asciiDirective,
   UiBtn,
   UiForm,
   UiFormField,
@@ -32,6 +34,7 @@ export const VuetifyUiToolkit = {
     for (const [name, component] of components) {
       app.component(name, component);
     }
+    app.directive('ascii', asciiDirective);
   },
 };
 

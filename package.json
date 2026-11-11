@@ -1,8 +1,11 @@
 {
-  "name": "vuetify-ui-toolkit",
+  "name": "@hiro-ao/vuetify-ui-toolkit",
   "version": "0.1.0",
   "description": "Reusable Vue components and composables for Vuetify",
   "type": "module",
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
   "files": [
     "dist"
   ],
@@ -27,7 +30,7 @@
   "peerDependencies": {
     "@mdi/font": "^7.4.47",
     "vue": "^3.5.0",
-    "vuetify": "^3.4.0"
+    "vuetify": "^3.7.0"
   },
   "devDependencies": {
     "@mdi/font": "^7.4.47",

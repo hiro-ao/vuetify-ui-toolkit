@@ -79,11 +79,10 @@ const schema = computed<Record<string, FormFieldSchema>>(() => ({
     placeholder: '457-0000',
     helper_message: 'ハイフンあり・なしのどちらでも入力できます',
     default_value: '',
-    validate: ['required', 'postcode', 'digits:7'],
+    validate: ['required', 'postcode'],
     validate_message: {
       required: '必須項目です',
       postcode: '郵便番号は7桁で入力してください',
-      'digits:7': '7桁にしてください',
     },
   },
 }));

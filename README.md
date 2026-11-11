@@ -5,8 +5,25 @@
 ## インストール
 
 ```sh
-npm install vuetify-ui-toolkit vuetify @mdi/font
+npm config set @hiro-ao:registry https://npm.pkg.github.com
+npm login --scope=@hiro-ao --auth-type=legacy --registry=https://npm.pkg.github.com
+npm install @hiro-ao/vuetify-ui-toolkit vuetify @mdi/font
 ```
+
+GitHub Packagesからインストールするには、`read:packages`権限のあるGitHub Personal Access Token (classic) で認証してください。トークンはnpmのユーザー設定に保存し、リポジトリにはコミットしないでください。利用者には対象パッケージへのアクセス権も必要です。
+
+## 公開
+
+先にリリース対象の変更をコミットしてください。`npm version`は作業ツリーがcleanでないと失敗します。変更をコミットした後、`npm version patch`でバージョン更新用コミットと`v*`タグを作成し、pushすると、GitHub Actionsが型チェック・ビルドを実行してGitHub Packagesへ公開します。
+
+```sh
+npm version patch
+git push --follow-tags
+```
+
+minor/majorリリースでは`npm version minor`または`npm version major`を使います。ワークフローは`v*`タグのpushで起動し、`GITHUB_TOKEN`には`packages: write`権限を設定しています。
+
+GitHub Packagesのパッケージ設定で、VisibilityがPrivateになっていることを確認してください。
 
 ## Playground
 
@@ -26,8 +43,8 @@ import { createApp } from 'vue';
 import { createVuetify } from 'vuetify';
 import '@mdi/font/css/materialdesignicons.css';
 import 'vuetify/styles';
-import 'vuetify-ui-toolkit/style.css';
-import { VuetifyUiToolkit } from 'vuetify-ui-toolkit';
+import '@hiro-ao/vuetify-ui-toolkit/style.css';
+import { VuetifyUiToolkit } from '@hiro-ao/vuetify-ui-toolkit';
 import App from './App.vue';
 
 createApp(App)
@@ -38,10 +55,18 @@ createApp(App)
 
 フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。利用側アプリでも`@mdi/font`をインストールし、上記のようにCSSを読み込んでVuetifyのアイコンセットを設定してください。
 
+`app.use(VuetifyUiToolkit)`を使うと、`v-ascii`ディレクティブもグローバル登録されます。全角ASCII入力を半角に変換します。プラグインを使わない場合は、個別に登録できます。
+
+```ts
+import { asciiDirective } from '@hiro-ao/vuetify-ui-toolkit';
+
+app.directive('ascii', asciiDirective);
+```
+
 プラグインを使わず、必要なコンポーネントだけを登録することもできます。
 
 ```ts
-import { UiBtn, UiTabs, useValidation } from 'vuetify-ui-toolkit';
+import { UiBtn, UiTabs, useValidation } from '@hiro-ao/vuetify-ui-toolkit';
 ```
 
 ## APIフォーム送信
