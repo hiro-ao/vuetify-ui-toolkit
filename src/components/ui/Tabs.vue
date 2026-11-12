@@ -17,7 +17,7 @@ defineOptions({
 
 <template>
   <div class="liquid-tabs" :class="props.floating ? 'floating' : ''">
-    <v-tabs v-bind="$attrs">
+    <v-tabs v-bind="$attrs" inset>
       <slot />
     </v-tabs>
   </div>
@@ -35,10 +35,10 @@ defineOptions({
 
 /* タブ全体のコンテナをiOS風（グレーの半透明カプセル）にする */
 .liquid-tabs :deep(.v-tabs) {
+  --v-tabs-inset-radius: 26px;
   background-color: rgba(241, 241, 242, 0.85) !important; /* 背後が少し透けるように半透明に */
   backdrop-filter: blur(5px); /* iOS風のすりガラス効果 */
   border-radius: 30px !important; /* フローティング用に丸みを強く */
-  padding: 4px !important;
   height: auto !important;
   display: inline-flex !important;
   /* タブ全体を大きく浮かせるための強力なシャドウ */
@@ -61,10 +61,15 @@ defineOptions({
   --v-theme-on-surface: 99, 99, 102;
 }
 
+.liquid-tabs :deep(.v-tab > .v-btn__overlay),
+.liquid-tabs :deep(.v-tab > .v-btn__underlay),
+.liquid-tabs :deep(.v-tab > .v-ripple__container) {
+  border-radius: inherit !important;
+}
+
 
 /* 追従する白い座布団（リキッドグラス） */
 .liquid-tabs :deep(.v-tab__slider) {
-  height: 100% !important;
   background-color: #ffffff !important;
   border-radius: 26px !important;
   box-shadow: 0px 2px 6px rgba(0, 0, 0, 0.15) !important;
