@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { defineComponent, getCurrentInstance } from 'vue';
-import { useDefaults } from 'vuetify';
+import { useDefaults, useTheme } from 'vuetify';
 import { VBtn } from 'vuetify/components';
 
 defineOptions({
@@ -16,6 +16,7 @@ const props = defineProps({
 });
 const defaultedProps = useDefaults(props, 'UiBtn');
 const instance = getCurrentInstance();
+const theme = useTheme();
 const UiBtnVariantDefaults = defineComponent({
   setup(_, { slots }) {
     const defaults = useDefaults(undefined, 'UiBtn');
@@ -70,12 +71,25 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
 
   return buttonProps;
 }
+
+function getLinearLoadingColor(variantConfig: unknown) {
+  const color = getVBtnProps(variantConfig).color;
+
+  if (typeof color !== 'string' || !color) {
+    return 'rgb(var(--v-theme-primary))';
+  }
+
+  return Object.prototype.hasOwnProperty.call(theme.current.value.colors, color)
+    ? `rgb(var(--v-theme-${color}))`
+    : color;
+}
 </script>
 
 <template>
   <UiBtnVariantDefaults v-slot="{ variants }">
     <VBtn
-      v-bind="{ ...getVBtnProps(variants), ...$attrs }">
+      v-bind="{ ...getVBtnProps(variants), ...$attrs }"
+      :style="{ '--linear-loading-color': getLinearLoadingColor(variants) }">
       <slot />
     </VBtn>
   </UiBtnVariantDefaults>
@@ -86,10 +100,10 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
 .linear-loading.v-btn--loading {
   background-color: color-mix(
     in srgb,
-    rgb(var(--v-theme-primary)) 16%,
+    var(--linear-loading-color) 16%,
     rgb(var(--v-theme-surface))
   ) !important;
-  color: rgb(var(--v-theme-primary)) !important;
+  color: var(--linear-loading-color) !important;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -114,7 +128,7 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
   right: 0 !important;
   width: 100% !important;
   height: 4px !important; /* バーの太さ */
-  background-color: rgba(var(--v-theme-primary), 0.2) !important; /* 20%の薄い背景の溝 */
+  background-color: color-mix(in srgb, var(--linear-loading-color) 20%, transparent) !important;
 
   /* 修正・追加：Vuetifyがローダー表示時にかけるレイアウト制限を無効化 */
   display: block !important;
@@ -131,7 +145,7 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
-  background-color: rgb(var(--v-theme-primary)) !important; /* Vuetifyのテーマカラー */
+  background-color: var(--linear-loading-color) !important;
 }
 
 /* ファーストバー（メインで伸び縮みしながら流れる） */
