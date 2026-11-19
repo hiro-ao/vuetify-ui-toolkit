@@ -1,6 +1,6 @@
 {
   "name": "@hiro-ao/vuetify-ui-toolkit",
-  "version": "0.1.12",
+  "version": "0.1.13",
   "description": "Reusable Vue components and composables for Vuetify",
   "type": "module",
   "publishConfig": {
