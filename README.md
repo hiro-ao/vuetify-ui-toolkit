@@ -49,8 +49,19 @@ import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configura
 export default defineVuetifyConfiguration({
   defaults: {
     UiBtn: {
-      color: 'primary',
-      variant: 'flat',
+      variant: {
+        default: {
+          variant: 'elevated',
+        },
+        accept: {
+          color: 'primary',
+          variant: 'elevated',
+        },
+        cancel: {
+          color: '',
+          variant: 'tonal',
+        },
+      },
     },
   },
 });
@@ -124,17 +135,34 @@ createApp(App)
   .mount('#app');
 ```
 
-`UiBtn`の共通propsは、Vuetifyの`defaults`で`UiBtn`を指定します。個別に指定したpropsは共通defaultsより優先されます。
+`UiBtn`の共通propsや名前付きvariantは、Vuetifyの`defaults`で`UiBtn`を指定します。`variant`を省略すると`default`が適用され、個別に指定したpropsはvariantの設定より優先されます。
 
 ```ts
 createVuetify({
   defaults: {
     UiBtn: {
-      color: 'primary',
-      variant: 'flat',
+      variant: {
+        default: {
+          variant: 'elevated',
+        },
+        accept: {
+          color: 'primary',
+          variant: 'elevated',
+        },
+        cancel: {
+          color: '',
+          variant: 'tonal',
+        },
+      },
     },
   },
 });
+```
+
+```vue
+<ui-btn>保存</ui-btn>
+<ui-btn variant="accept">送信</ui-btn>
+<ui-btn variant="cancel">キャンセル</ui-btn>
 ```
 
 フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。Vuetify側ですでにMDIフォントを読み込んでいる場合、CSSを重複してimportする必要はありません。未設定の場合は利用側で`@mdi/font`のCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。
