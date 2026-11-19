@@ -1,50 +1,6 @@
-<script setup lang="ts">
-import { VBtn } from 'vuetify/components';
-import type { VBtn as VBtnType } from 'vuetify/components';
-
-const props = withDefaults(
-  defineProps<{
-    variant?: 'default' | 'accept' | 'cancel';
-  }>(),
-  {
-    variant: 'default',
-  },
-);
-
-let setColor;
-let setVariant: VBtnType['$props']['variant'];
-
-switch (props.variant) {
-  case 'default': {
-    setColor = '';
-    setVariant = 'elevated';
-    break;
-  }
-  case 'accept': {
-    setColor = 'primary';
-    setVariant = 'elevated';
-    break;
-  }
-  case 'cancel': {
-    setColor = '';
-    setVariant = 'tonal';
-    break;
-  }
-  default: {
-    setColor = '';
-    setVariant = 'elevated';
-  }
-
-}
-
-</script>
-
 <template>
   <v-btn
-    :color="setColor"
-    :variant="setVariant"
-    class="linear-loading"
-  >
+    v-bind="$attrs">
     <slot />
   </v-btn>
 </template>

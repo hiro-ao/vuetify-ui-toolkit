@@ -158,14 +158,8 @@ const handleSubmit = (data: Record<string, unknown>) => {
                   </div>
                   <span class="card-index">01</span>
                 </div>
-                <p class="card-description">用途に合わせた3つのvariantと、ローディング表示。</p>
-                <div class="button-row">
-                  <ui-btn>Default</ui-btn>
-                  <ui-btn variant="accept">Accept</ui-btn>
-                  <ui-btn variant="cancel">Cancel</ui-btn>
-                </div>
                 <div class="loading-row">
-                  <ui-btn variant="accept" :loading="isLoading" @click="showLoading">
+                  <ui-btn class="linear-loading" :loading="isLoading" @click="showLoading">
                     {{ isLoading ? '処理中...' : 'ローディングを試す' }}
                   </ui-btn>
                   <span class="hint">クリックで1.8秒間表示</span>
