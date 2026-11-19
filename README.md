@@ -30,43 +30,6 @@ export default defineNuxtConfig({
 
 Vuetify用Nuxtモジュールでスタイルの自動読み込みを無効にしている場合に限り、`vuetify/styles`を`css`に追加してください。
 
-`vuetify-nuxt-module`を使っている場合は、`vuetifyOptions`の設定ファイルで`defineVuetifyConfiguration`に`UiBtn`のdefaultsを指定できます。
-
-```ts
-// nuxt.config.ts
-export default defineNuxtConfig({
-  modules: ['vuetify-nuxt-module'],
-  vuetify: {
-    vuetifyOptions: './vuetify.options.ts',
-  },
-});
-```
-
-```ts
-// vuetify.options.ts
-import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration';
-
-export default defineVuetifyConfiguration({
-  defaults: {
-    UiBtn: {
-      variant: {
-        default: {
-          variant: 'elevated',
-        },
-        accept: {
-          color: 'primary',
-          variant: 'elevated',
-        },
-        cancel: {
-          color: '',
-          variant: 'tonal',
-        },
-      },
-    },
-  },
-});
-```
-
 `plugins/vuetify-ui-toolkit.ts`を作成し、Vueアプリにプラグインを登録します。Nuxtが`plugins/`内のプラグインを自動読み込みするため、`nuxt.config.ts`への登録は不要です。
 
 ```ts
@@ -133,36 +96,6 @@ createApp(App)
   .use(createVuetify({ icons: { defaultSet: 'mdi' } }))
   .use(VuetifyUiToolkit)
   .mount('#app');
-```
-
-`UiBtn`の共通propsや名前付きvariantは、Vuetifyの`defaults`で`UiBtn`を指定します。`variant`を省略すると`default`が適用され、個別に指定したpropsはvariantの設定より優先されます。
-
-```ts
-createVuetify({
-  defaults: {
-    UiBtn: {
-      variant: {
-        default: {
-          variant: 'elevated',
-        },
-        accept: {
-          color: 'primary',
-          variant: 'elevated',
-        },
-        cancel: {
-          color: '',
-          variant: 'tonal',
-        },
-      },
-    },
-  },
-});
-```
-
-```vue
-<ui-btn>保存</ui-btn>
-<ui-btn variant="accept">送信</ui-btn>
-<ui-btn variant="cancel">キャンセル</ui-btn>
 ```
 
 フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。Vuetify側ですでにMDIフォントを読み込んでいる場合、CSSを重複してimportする必要はありません。未設定の場合は利用側で`@mdi/font`のCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。

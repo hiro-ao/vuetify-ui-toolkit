@@ -11,36 +11,6 @@ import './style.css';
 const vuetify = createVuetify({
   components,
   directives,
-  defaults: {
-    UiBtn: {
-      variant: {
-        default: {
-          color: 'primary',
-          variant: 'elevated',
-        },
-        accept: {
-          color: 'primary',
-          variant: 'elevated',
-        },
-        cancel: {
-          color: '',
-          variant: 'tonal',
-        },
-        secondary: {
-          color: 'secondary',
-          variant: 'tonal',
-        },
-        success: {
-          color: 'success',
-          variant: 'elevated',
-        },
-        error: {
-          color: 'error',
-          variant: 'elevated',
-        },
-      },
-    },
-  },
   icons: {
     defaultSet: 'mdi',
   },

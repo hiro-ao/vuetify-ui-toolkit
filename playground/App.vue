@@ -11,7 +11,6 @@ import type { FormFieldSchema } from '../src';
 const activeTab = ref('components');
 const previewTab = ref('overview');
 const isLoading = ref(false);
-const buttonVariants = ['default', 'accept', 'cancel', 'secondary', 'success', 'error'];
 const submittedData = ref<Record<string, unknown> | null>(null);
 const composableResult = ref<Record<string, unknown> | null>(null);
 
@@ -158,31 +157,6 @@ const handleSubmit = (data: Record<string, unknown>) => {
                     <h3>ボタン</h3>
                   </div>
                   <span class="card-index">01</span>
-                </div>
-                <p class="card-description">
-                  各variantの通常時とlinear-loading時の色を比較できます。
-                </p>
-                <div class="button-variant-list">
-                  <div
-                    v-for="variant in buttonVariants"
-                    :key="variant"
-                    class="button-variant-row"
-                  >
-                    <span class="button-variant-name">{{ variant }}</span>
-                    <div class="button-variant-preview">
-                      <ui-btn :variant="variant" size="small">
-                        {{ variant }}
-                      </ui-btn>
-                      <ui-btn
-                        :variant="variant"
-                        class="linear-loading"
-                        loading
-                        size="small"
-                      >
-                        {{ variant }}
-                      </ui-btn>
-                    </div>
-                  </div>
                 </div>
                 <div class="loading-row">
                   <ui-btn class="linear-loading" :loading="isLoading" @click="showLoading">

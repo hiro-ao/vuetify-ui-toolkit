@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { defineComponent, getCurrentInstance } from 'vue';
-import { useDefaults, useTheme } from 'vuetify';
+import { getCurrentInstance } from 'vue';
+import { useDefaults } from 'vuetify';
 import { VBtn } from 'vuetify/components';
 
 defineOptions({
@@ -9,24 +9,9 @@ defineOptions({
 
 const props = defineProps({
   ...VBtn.props,
-  variant: {
-    type: String,
-    default: undefined,
-  },
 });
 const defaultedProps = useDefaults(props, 'UiBtn');
 const instance = getCurrentInstance();
-const theme = useTheme();
-const UiBtnVariantDefaults = defineComponent({
-  setup(_, { slots }) {
-    const defaults = useDefaults(undefined, 'UiBtn');
-    return () => slots.default?.({ variants: defaults.variant });
-  },
-});
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null && !Array.isArray(value);
-}
 
 function hasExplicitProp(key: string) {
   const vnodeProps = instance?.vnode.props;
@@ -40,12 +25,8 @@ function hasExplicitProp(key: string) {
     );
 }
 
-function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
+function getVBtnProps(): Record<string, unknown> {
   const { variant: defaultVariant, ...defaults } = defaultedProps;
-  const variantPresets = isRecord(variantConfig) ? variantConfig : undefined;
-  const selectedVariant = props.variant ?? (variantPresets ? 'default' : undefined);
-  const presetValue = selectedVariant ? variantPresets?.[selectedVariant] : undefined;
-  const preset = isRecord(presetValue) ? presetValue : undefined;
   const explicitProps: Record<string, unknown> = {};
 
   for (const key of Object.keys(props)) {
@@ -56,14 +37,9 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
 
   const buttonProps: Record<string, unknown> = {
     ...defaults,
-    ...preset,
     ...explicitProps,
   };
-  const variant = preset
-    ? preset.variant
-    : variantPresets
-      ? props.variant
-      : defaultVariant;
+  const variant = props.variant ?? defaultVariant;
 
   if (variant !== undefined) {
     buttonProps.variant = variant;
@@ -71,28 +47,12 @@ function getVBtnProps(variantConfig: unknown): Record<string, unknown> {
 
   return buttonProps;
 }
-
-function getLinearLoadingColor(variantConfig: unknown) {
-  const color = getVBtnProps(variantConfig).color;
-
-  if (typeof color !== 'string' || !color) {
-    return 'rgb(var(--v-theme-primary))';
-  }
-
-  return Object.prototype.hasOwnProperty.call(theme.current.value.colors, color)
-    ? `rgb(var(--v-theme-${color}))`
-    : color;
-}
 </script>
 
 <template>
-  <UiBtnVariantDefaults v-slot="{ variants }">
-    <VBtn
-      v-bind="{ ...getVBtnProps(variants), ...$attrs }"
-      :style="{ '--linear-loading-color': getLinearLoadingColor(variants) }">
-      <slot />
-    </VBtn>
-  </UiBtnVariantDefaults>
+  <VBtn v-bind="{ ...getVBtnProps(), ...$attrs }">
+    <slot />
+  </VBtn>
 </template>
 
 <style scoped>
@@ -100,10 +60,10 @@ function getLinearLoadingColor(variantConfig: unknown) {
 .linear-loading.v-btn--loading {
   background-color: color-mix(
     in srgb,
-    var(--linear-loading-color) 16%,
+    rgb(var(--v-theme-primary)) 16%,
     rgb(var(--v-theme-surface))
   ) !important;
-  color: var(--linear-loading-color) !important;
+  color: rgb(var(--v-theme-primary)) !important;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -128,7 +88,7 @@ function getLinearLoadingColor(variantConfig: unknown) {
   right: 0 !important;
   width: 100% !important;
   height: 4px !important; /* バーの太さ */
-  background-color: color-mix(in srgb, var(--linear-loading-color) 20%, transparent) !important;
+  background-color: rgba(var(--v-theme-primary), 0.2) !important;
 
   /* 修正・追加：Vuetifyがローダー表示時にかけるレイアウト制限を無効化 */
   display: block !important;
@@ -145,7 +105,7 @@ function getLinearLoadingColor(variantConfig: unknown) {
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
-  background-color: var(--linear-loading-color) !important;
+  background-color: rgb(var(--v-theme-primary)) !important;
 }
 
 /* ファーストバー（メインで伸び縮みしながら流れる） */

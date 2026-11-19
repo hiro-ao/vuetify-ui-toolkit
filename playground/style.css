@@ -89,32 +89,6 @@ body {
   line-height: 1.8;
 }
 
-.button-variant-list {
-  display: grid;
-  gap: 8px;
-}
-
-.button-variant-row {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 12px;
-  padding: 8px 0;
-  border-top: 1px solid #eeedf2;
-}
-
-.button-variant-name {
-  color: #85818f;
-  font-family: 'SFMono-Regular', Consolas, monospace;
-  font-size: 11px;
-}
-
-.button-variant-preview {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
 .hero p {
   margin: 13px 0 0;
 }
