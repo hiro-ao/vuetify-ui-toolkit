@@ -30,6 +30,32 @@ export default defineNuxtConfig({
 
 Vuetify用Nuxtモジュールでスタイルの自動読み込みを無効にしている場合に限り、`vuetify/styles`を`css`に追加してください。
 
+`vuetify-nuxt-module`を使っている場合は、`vuetifyOptions`の設定ファイルで`defineVuetifyConfiguration`に`UiBtn`のdefaultsを指定できます。
+
+```ts
+// nuxt.config.ts
+export default defineNuxtConfig({
+  modules: ['vuetify-nuxt-module'],
+  vuetify: {
+    vuetifyOptions: './vuetify.options.ts',
+  },
+});
+```
+
+```ts
+// vuetify.options.ts
+import { defineVuetifyConfiguration } from 'vuetify-nuxt-module/custom-configuration';
+
+export default defineVuetifyConfiguration({
+  defaults: {
+    UiBtn: {
+      color: 'primary',
+      variant: 'flat',
+    },
+  },
+});
+```
+
 `plugins/vuetify-ui-toolkit.ts`を作成し、Vueアプリにプラグインを登録します。Nuxtが`plugins/`内のプラグインを自動読み込みするため、`nuxt.config.ts`への登録は不要です。
 
 ```ts
@@ -96,6 +122,19 @@ createApp(App)
   .use(createVuetify({ icons: { defaultSet: 'mdi' } }))
   .use(VuetifyUiToolkit)
   .mount('#app');
+```
+
+`UiBtn`の共通propsは、Vuetifyの`defaults`で`UiBtn`を指定します。個別に指定したpropsは共通defaultsより優先されます。
+
+```ts
+createVuetify({
+  defaults: {
+    UiBtn: {
+      color: 'primary',
+      variant: 'flat',
+    },
+  },
+});
 ```
 
 フォームのバリデーションアイコンにはMaterial Design Iconsを使用します。Vuetify側ですでにMDIフォントを読み込んでいる場合、CSSを重複してimportする必要はありません。未設定の場合は利用側で`@mdi/font`のCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。

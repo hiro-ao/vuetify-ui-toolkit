@@ -1,12 +1,20 @@
 <script setup lang="ts">
+import { useDefaults } from 'vuetify';
 import { VBtn } from 'vuetify/components';
+
+defineOptions({
+  inheritAttrs: false,
+});
+
+const props = defineProps(VBtn.props);
+const defaultedProps = useDefaults(props, 'UiBtn');
 </script>
 
 <template>
-  <v-btn
-    v-bind="$attrs">
+  <VBtn
+    v-bind="{ ...defaultedProps, ...$attrs }">
     <slot />
-  </v-btn>
+  </VBtn>
 </template>
 
 <style scoped>
