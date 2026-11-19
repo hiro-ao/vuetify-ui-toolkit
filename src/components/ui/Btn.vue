@@ -1,3 +1,7 @@
+<script setup lang="ts">
+import { VBtn } from 'vuetify/components';
+</script>
+
 <template>
   <v-btn
     v-bind="$attrs">
