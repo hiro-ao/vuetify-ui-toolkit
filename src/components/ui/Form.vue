@@ -159,7 +159,7 @@ const getUiFormFieldBindProps = (key: string, field: FormFieldConfig) => {
         </template>
 
         <UiBtn
-          variant="accept"
+          color="accept"
           @click="handleSubmit"
         >
           送信する

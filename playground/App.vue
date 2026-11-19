@@ -13,6 +13,16 @@ const previewTab = ref('overview');
 const isLoading = ref(false);
 const submittedData = ref<Record<string, unknown> | null>(null);
 const composableResult = ref<Record<string, unknown> | null>(null);
+const loadingColorSamples = [
+  'default',
+  'accept',
+  'primary',
+  'secondary',
+  'success',
+  'warning',
+  'error',
+  'info',
+];
 
 const sleep = (ms: number) =>
   new Promise((resolve) => window.setTimeout(resolve, ms));
@@ -164,6 +174,20 @@ const handleSubmit = (data: Record<string, unknown>) => {
                   </ui-btn>
                   <span class="hint">クリックで1.8秒間表示</span>
                 </div>
+                <div class="loading-colors">
+                  <p class="card-description">linear-loadingの色（color prop）</p>
+                  <div class="loading-color-grid">
+                    <ui-btn
+                      v-for="color in loadingColorSamples"
+                      :key="color"
+                      class="linear-loading"
+                      :color="color"
+                      loading
+                    >
+                      {{ color }}
+                    </ui-btn>
+                  </div>
+                </div>
               </v-card>
 
               <v-card class="showcase-card tabs-card" rounded="xl" elevation="0">
@@ -245,7 +269,7 @@ const handleSubmit = (data: Record<string, unknown>) => {
                 </div>
               </div>
               <ui-btn
-                variant="accept"
+                color="accept"
                 :loading="isSubmitting"
                 @click="submitApiForm({ source: 'playground' })"
               >

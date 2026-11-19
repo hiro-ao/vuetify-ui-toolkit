@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { computed } from 'vue';
 import { useDefaults } from 'vuetify';
 import { VBtn } from 'vuetify/components';
 
@@ -14,6 +15,19 @@ const props = defineProps({
   },
 });
 const defaultedProps = useDefaults(props, props.defaultsName);
+const loadingColor = computed(() => {
+  const color = defaultedProps.color;
+  if (typeof color !== 'string' || !color) {
+    return 'rgb(var(--v-theme-primary))';
+  }
+
+  const isCssColor =
+    color.startsWith('#') ||
+    color.startsWith('var(--') ||
+    /^(rgb|hsl)a?\(/.test(color);
+
+  return isCssColor ? color : `rgb(var(--v-theme-${color}))`;
+});
 
 function getVBtnProps(): Record<string, unknown> {
   return Object.fromEntries(
@@ -23,20 +37,23 @@ function getVBtnProps(): Record<string, unknown> {
 </script>
 
 <template>
-  <VBtn v-bind="{ ...getVBtnProps(), ...$attrs }">
+  <VBtn
+    v-bind="{ ...getVBtnProps(), ...$attrs }"
+    :style="{ '--linear-loading-color': loadingColor }"
+  >
     <slot />
   </VBtn>
 </template>
 
 <style scoped>
-/* 読み込み中はテーマ色を淡く敷き、通常状態と区別する */
+/* 読み込み中はボタンの色を淡く敷き、通常状態と区別する */
 .linear-loading.v-btn--loading {
   background-color: color-mix(
     in srgb,
-    rgb(var(--v-theme-primary)) 16%,
+    var(--linear-loading-color) 16%,
     rgb(var(--v-theme-surface))
   ) !important;
-  color: rgb(var(--v-theme-primary)) !important;
+  color: var(--linear-loading-color) !important;
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
@@ -61,7 +78,11 @@ function getVBtnProps(): Record<string, unknown> {
   right: 0 !important;
   width: 100% !important;
   height: 4px !important; /* バーの太さ */
-  background-color: rgba(var(--v-theme-primary), 0.2) !important;
+  background-color: color-mix(
+    in srgb,
+    var(--linear-loading-color) 20%,
+    transparent
+  ) !important;
 
   /* 修正・追加：Vuetifyがローダー表示時にかけるレイアウト制限を無効化 */
   display: block !important;
@@ -78,7 +99,7 @@ function getVBtnProps(): Record<string, unknown> {
   position: absolute !important;
   top: 0 !important;
   bottom: 0 !important;
-  background-color: rgb(var(--v-theme-primary)) !important;
+  background-color: var(--linear-loading-color) !important;
 }
 
 /* ファーストバー（メインで伸び縮みしながら流れる） */
