@@ -15,10 +15,13 @@ const props = defineProps({
   },
 });
 const defaultedProps = useDefaults(props, props.defaultsName);
+const hasLoadingColor = computed(
+  () => typeof defaultedProps.color === 'string' && defaultedProps.color.length > 0,
+);
 const loadingColor = computed(() => {
   const color = defaultedProps.color;
   if (typeof color !== 'string' || !color) {
-    return 'rgb(var(--v-theme-primary))';
+    return 'currentColor';
   }
 
   const isCssColor =
@@ -39,6 +42,7 @@ function getVBtnProps(): Record<string, unknown> {
 <template>
   <VBtn
     v-bind="{ ...getVBtnProps(), ...$attrs }"
+    :class="{ 'linear-loading--colored': hasLoadingColor }"
     :style="{ '--linear-loading-color': loadingColor }"
   >
     <slot />
@@ -46,8 +50,8 @@ function getVBtnProps(): Record<string, unknown> {
 </template>
 
 <style scoped>
-/* 読み込み中はボタンの色を淡く敷き、通常状態と区別する */
-.linear-loading.v-btn--loading {
+/* 色指定がある場合のみ、読み込み中の背景と文字色を色に合わせる */
+.linear-loading.v-btn--loading.linear-loading--colored {
   background-color: color-mix(
     in srgb,
     var(--linear-loading-color) 16%,
