@@ -1,5 +1,4 @@
 <script setup lang="ts">
-import { getCurrentInstance } from 'vue';
 import { useDefaults } from 'vuetify';
 import { VBtn } from 'vuetify/components';
 
@@ -9,43 +8,17 @@ defineOptions({
 
 const props = defineProps({
   ...VBtn.props,
+  defaultsName: {
+    type: String,
+    default: 'UiBtn',
+  },
 });
-const defaultedProps = useDefaults(props, 'UiBtn');
-const instance = getCurrentInstance();
-
-function hasExplicitProp(key: string) {
-  const vnodeProps = instance?.vnode.props;
-  const kebabKey = key.replace(/[A-Z]/g, (character) => `-${character.toLowerCase()}`);
-
-  return vnodeProps !== null
-    && vnodeProps !== undefined
-    && (
-      Object.prototype.hasOwnProperty.call(vnodeProps, key)
-      || Object.prototype.hasOwnProperty.call(vnodeProps, kebabKey)
-    );
-}
+const defaultedProps = useDefaults(props, props.defaultsName);
 
 function getVBtnProps(): Record<string, unknown> {
-  const { variant: defaultVariant, ...defaults } = defaultedProps;
-  const explicitProps: Record<string, unknown> = {};
-
-  for (const key of Object.keys(props)) {
-    if (key !== 'variant' && hasExplicitProp(key)) {
-      explicitProps[key] = props[key as keyof typeof props];
-    }
-  }
-
-  const buttonProps: Record<string, unknown> = {
-    ...defaults,
-    ...explicitProps,
-  };
-  const variant = props.variant ?? defaultVariant;
-
-  if (variant !== undefined) {
-    buttonProps.variant = variant;
-  }
-
-  return buttonProps;
+  return Object.fromEntries(
+    Object.entries(defaultedProps).filter(([key]) => key !== 'defaultsName'),
+  );
 }
 </script>
 

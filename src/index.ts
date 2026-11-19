@@ -7,6 +7,7 @@ import UiFormPostcodeField from './components/ui/form/PostcodeField.vue';
 import UiFormValidationMessages from './components/ui/form/ValidationMessages.vue';
 import UiTabs from './components/ui/Tabs.vue';
 import { asciiDirective } from './directives/ascii';
+import { withDefaultsName } from './utils/withDefaultsName';
 
 export {
   asciiDirective,
@@ -17,6 +18,7 @@ export {
   UiFormPostcodeField,
   UiFormValidationMessages,
   UiTabs,
+  withDefaultsName,
 };
 
 const components: [string, Component][] = [

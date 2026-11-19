@@ -55,6 +55,36 @@ const postcode = ref('');
 </template>
 ```
 
+`UiBtn`を別名で登録する場合は、`withDefaultsName`でVuetify defaultsの参照名を設定できます。
+
+```ts
+import {
+  UiBtn,
+  VuetifyUiToolkit,
+  withDefaultsName,
+} from '@hiro-ao/vuetify-ui-toolkit';
+
+export default defineNuxtPlugin((nuxtApp) => {
+  nuxtApp.vueApp.use(VuetifyUiToolkit);
+  nuxtApp.vueApp.component(
+    'UiBtnAccept',
+    withDefaultsName(UiBtn, 'UiBtnAccept'),
+  );
+});
+```
+
+この場合、Vuetifyの設定に`UiBtnAccept`のdefaultsを追加できます。
+
+```ts
+createVuetify({
+  defaults: {
+    UiBtnAccept: {
+      color: 'success',
+    },
+  },
+});
+```
+
 Vuetifyの標準アイコンセットはMDIですが、Vuetify本体にアイコンフォントファイルが含まれているわけではありません。Vuetify用NuxtモジュールがMDIフォントとCSSを設定しているなら追加設定は不要です。設定していない場合は`@mdi/font`をインストールしてCSSを読み込み、Vuetifyのアイコンセットを`mdi`に設定してください。別のアイコンセットを利用している場合は、MDIアイコンを使用するフォームのアイコン表示がそのままでは一致しないことがあります。
 
 ## 公開
